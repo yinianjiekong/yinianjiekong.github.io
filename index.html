@@ -493,7 +493,14 @@
     '/': {
       name: '根目录',
       children: [
-        { name: '文件夹1', type: 'folder', path: '/文件夹1', children: [] },
+        { name: '文件夹1', type: 'folder', path: '/文件夹1', children: [{
+    name: '600 风俗店的美少女们04--小颦、小筝、小媚.mp3',
+    type: 'audio',
+    path: '/文件夹1/600 风俗店的美少女们04--小颦、小筝、小媚.mp3',
+    url: '600 风俗店的美少女们04--小颦、小筝、小媚.mp3',
+    size: 0,
+    date: '2026-07-25'
+  }] },
         { name: '文件夹2', type: 'folder', path: '/文件夹2', children: [] },
         { name: '文件夹3', type: 'folder', path: '/文件夹3', children: [] },
         { name: '文件夹4', type: 'folder', path: '/文件夹4', children: [] }
@@ -793,6 +800,18 @@
 
   function downloadFile(name, path) {
     var node = findNode(path);
+
+    // 优先使用真实文件路径（url字段）
+    if (node.url) {
+      var a = document.createElement('a');
+      a.href = encodeURI(node.url);
+      a.download = node.name;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return;
+    }
     if (!node) return;
     if (node.blobUrl) {
       var a = document.createElement('a');
